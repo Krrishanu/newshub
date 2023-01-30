@@ -1,0 +1,49 @@
+
+{% extends "base.html" %}
+{% block content %}
+
+
+
+<div class="container bg-light pt-3 mt-3">
+    <div class="row">
+        <div class="col-md-3"><img class='img-thumbnail' src='{{i.image}}'></div>
+        <div class="col-md-8"><h3>{{i.name}}</h3></div>
+
+
+    </div>
+
+    <body>
+      <div class="py-5">
+        <div class="container">
+          <div class="row hidden-md-up">
+            {% for item in news.query.filter_by(daily_id=i.id).all()%}
+            <div class="col-md-6">
+              <div class="card p-2 mt-2">
+                <div class="card-block">
+                  <a target="_blank" href="{{item.link}}" class="card-title p-3"><h4>{{item.title}}</h4></a>
+                  <h6 class="card-subtitle text-muted p-1">{{item.date|safe}}</h6>
+                  <p class="card-text p-1">{{item.description|safe}}</p>
+                  
+                {% if item.content %}
+                  <a href="#_{{item.id}}" data-bs-toggle="collapse" data-bs-target="#_{{item.id}}" class="card-link p-1">more...</a>
+                  <div id="_{{item.id}}" class="collapse p-1">
+                  {{item.content|replace('img',"img class='card-img-top'")|safe}}
+                  </div>
+                {% endif %}
+
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
+      <script src="https://pingendo.com/assets/bootstrap/bootstrap-4.0.0-alpha.6.min.js"></script>
+    </body>
+
+</div>
+
+
+{% endblock %}
